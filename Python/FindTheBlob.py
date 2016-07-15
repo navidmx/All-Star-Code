@@ -80,8 +80,6 @@ def findColorSpot(picture, color):
             
     if(totalPixelNum != 0):
         averageXPixel = xPixelSum/totalPixelNum
-    if(totalPixelNum == 0):
-        averageXPixel = 257
         
     #Handles the case where robot has found the spot if it is near it
     #If necessary adjust the value
@@ -102,7 +100,7 @@ colors = {1: False, 2: False, 3:False, 4: False} #array with starting values of 
 pic=takePicture()
 
 def checkcolor(color, name, pic): #check a picture to find a color(1-4)
-    while (findColorSpot(pic,color)>0 or findColorSpot(pic,color)==-1) and colors[color]==False:
+    while (findColorSpot(pic,color)>0 or findColorSpot(pic,color)==-1) and colors[color]==False:  
         forward(2,1)
         pic=takePicture()
         if findColorSpot(pic,color)==-1: #if color found, mark it
