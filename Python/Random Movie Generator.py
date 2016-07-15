@@ -3,7 +3,7 @@ from random import *
 
 List1=["Screams of a", "In love with a", "Understanding a", "Finding the", "Discovering a", "Adventures of a", "Protecting the", "Saving a", "Defeating the", "Fighting for a"]
 List2=["glorious", "disgusting", "smelly", "beautiful", "horrible", "fierce", "mysterious", "dark", "bright", "happy"]
-List3=["hyena", "Batman", "Godzilla", "Guardian", "cat", "serpent", "fossil", "city", "bird", "girl"]
+List3=["hyena", "Batman", "Godzilla", "guardian", "cat", "serpent", "fossil", "city", "bird", "girl"]
 NewList1=[]
 NewList2=[]
 NewList3=[]
