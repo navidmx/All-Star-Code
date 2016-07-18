@@ -7,9 +7,9 @@ pic=makePicture(image+".jpg") #Scan picture
 pix=getPixels(pic) #Get pixels of picture
 
 ObamaDarkBlue = makeColor(0,51,76) #Dark Blue value
-ObamaRed = makeColor(217, 26, 33) #Red Value
-ObamaBlue = makeColor(112,150,158) #Blue Value
-ObamaYellow = makeColor(252, 227, 166)
+ObamaRed = makeColor(217, 26, 33) #Red value
+ObamaBlue = makeColor(112,150,158) #Blue value
+ObamaYellow = makeColor(252, 227, 166) #Yellow value
 
 show(pic) #Show the original picture
 wait(1) #Wait before changing pixels
