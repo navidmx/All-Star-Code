@@ -3,6 +3,8 @@ using System.Collections;
 
 public class PlayerController : MonoBehaviour {
 
+	public float speed;
+
 	private Rigidbody rb;
 
 	void Start()
@@ -15,8 +17,8 @@ public class PlayerController : MonoBehaviour {
 		float moveHorizontal = Input.GetAxis ("Horizontal");
 		float moveVertical = Input.GetAxis ("Vertical");
 
-		Vector3 movement = new Vector3 (x, y, z);
+		Vector3 movement = new Vector3 (moveHorizontal, 0.0f, moveVertical);
 
-		rb.AddForce (Vector3);
+		rb.AddForce (movement * speed);
 	}
 }
