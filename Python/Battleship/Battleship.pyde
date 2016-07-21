@@ -13,13 +13,13 @@ def createShip():
     shipY=randrange(0,5)
     grid[shipX][shipY]=2
     direction=randrange(0,3)
-    if direction==0 and shipX+1<=5 and (grid[shipX+1][shipY])!=2:
+    if direction==0 and shipX+1<=5 and grid[shipX+1][shipY]!=2:
         grid[shipX+1][shipY]=2
-    elif direction==1 and shipX-1>=0 and (grid[shipX-1][shipY])!=2:
+    elif direction==1 and shipX-1>=0 and grid[shipX-1][shipY]!=2:
         grid[shipX-1][shipY]=2
-    elif direction==2 and shipY+1<=5 and (grid[shipX][shipY+1])!=2:
+    elif direction==2 and shipY+1<=5 and grid[shipX][shipY+1]!=2:
         grid[shipX][shipY+1]=2
-    elif direction==3 and shipY-1>=0 and (grid[shipX][shipY-1])!=2:
+    elif direction==3 and shipY-1>=0 and grid[shipX][shipY-1]!=2:
         grid[shipX][shipY-1]=2
 
 def setup():
