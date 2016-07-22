@@ -5,9 +5,11 @@ bulletX=0
 bulletY=-10
 tempX=0
 alienX=100
+alienY=100
 bulletOnScreen=False
 activateBullet=False
 aliens=[[0,0,0,0,0],[0,0,0,0,0]]
+alienRight=True
 
 def setup():
     size(600,600)
@@ -34,25 +36,47 @@ def createBullet():
     rect(bulletX,bulletY,3,15)
     bulletY=bulletY-15
 
-def alienrow(): #One row of aliens
+def alienRow(): #One row of aliens
+    global alienX
+    global alienY
     for x in range(len(aliens)):
         for i in range(len(aliens[x])):
             if aliens[x][i]==0:
                 fill(255)
-                rect((alienX-10)+(i*100),90,10,10)
-                rect((alienX+10)+(i*100),90,10,10)
-                rect(alienX+(i*100),100,40,20)
+                rect((alienX-10)+(i*100),(alienY-10),10,10)
+                rect((alienX+10)+(i*100),(alienY-10),10,10)
+                rect(alienX+(i*100),alienY,40,20)
                 fill(0)
-                rect((alienX-10)+(i*100),100,8,5)
-                rect((alienX+10)+(i*100),100,8,5)
-            if bulletX>=((alienX)+i*100) and bulletX<=((alienX+40)+i*100) and bulletY<=100:
+                rect((alienX-10)+(i*100),alienY,8,5)
+                rect((alienX+10)+(i*100),alienY,8,5)
+            if bulletX>=((alienX-20)+(i*100)) and bulletX<=((alienX+20)+(i*100)) and bulletY<=alienY+10:
                 aliens[x][i]=1
+            if bulletX>=((alienX-10)+(i*100)) and bulletX<=((alienX+10)+(i*100)) and bulletY<=alienY+10:
+                aliens[x][i]=2
+
+def alienDance():
+    global alienX
+    global alienY
+    global alienRight
+    if alienRight==True:
+        alienX+=1
+    else:
+        alienX-=1
+    if alienX+440==600:
+        alienRight=False
+        for i in range(10):
+            alienY+=1
+    elif alienX==40:
+        alienRight=True
+        for i in range(10):
+            alienY+=1
 
 def draw():
     global shipX
     global bulletY
     global bulletOnScreen
     global activateBullet
+    global alienX
     noStroke()
     rectMode(CENTER)
     background(0)
@@ -60,16 +84,16 @@ def draw():
     rect(shipX,500,60,20) #Main ship body
     rect(shipX,490,10,20) #Ship cannon
     if keyPressed==True and shipX>30 and shipX<570:
-        if key=="a" or keyCode==LEFT: #Move left
+        if key=="a" or key=="A" or keyCode==LEFT: #Move left
             shipX-=5
-        elif key=="d" or keyCode==RIGHT: #Move right
+        elif key=="d" or key=="D" or keyCode==RIGHT: #Move right
             shipX+=5
     if shipX<40:
         shipX=40
     if shipX>560:
         shipX=560
     bullet()
-    alienrow()
+    alienRow()
     if bulletY>=50:
         bulletOnScreen=True
     elif bulletY<0:
@@ -77,3 +101,4 @@ def draw():
         activateBullet==False
     if activateBullet==True:
         createBullet()
+    alienDance()
