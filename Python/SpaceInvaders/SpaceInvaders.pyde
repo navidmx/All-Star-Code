@@ -32,7 +32,7 @@ def createBullet():
     fill(255)
     bulletX=tempX
     rect(bulletX,bulletY,3,15)
-    bulletY=bulletY-5
+    bulletY=bulletY-15
 
 def alienrow(): #One row of aliens
     for x in range(len(aliens)):
@@ -58,9 +58,9 @@ def draw():
     rect(shipX,500,60,20) #Main ship body
     rect(shipX,490,10,20) #Ship cannon
     if keyPressed==True and shipX>30 and shipX<570:
-        if key=="a": #Move left
+        if key=="a" or keyCode==LEFT: #Move left
             shipX-=5
-        elif key=="d": #Move right
+        elif key=="d" or keyCode==RIGHT: #Move right
             shipX+=5
     if shipX<40:
         shipX=40
