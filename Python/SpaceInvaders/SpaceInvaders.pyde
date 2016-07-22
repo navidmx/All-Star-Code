@@ -1,4 +1,4 @@
-#Space Invaders - Navid, Richard, and Michael
+#Space Invaders - Navid, Richard, and Michel
 
 from random import *
 shipX=300 #Default shipX
@@ -9,11 +9,16 @@ alienBulletY=610
 tempX=0
 alienTempX=0
 alienX=100
-alienY=100
+alienY=150
 score=0
+lives=3
 bulletOnScreen=False
+alienBulletOnScreen=False
 activateBullet=False
-activateAlienBullet=False
+alienActivateBullet=False
+gameOver=False
+gameStart=False
+gameWin=False
 aliens=[[3,3,3,3,3],[2,2,2,2,2],[1,1,1,1,1]] #Grid of aliens
 alienRight=True #Aliens start moving right
 
@@ -44,6 +49,33 @@ def createBullet():
     bulletX=tempX
     rect(bulletX,bulletY,3,15)
     bulletY=bulletY-10
+    
+#Alien bullet fired event
+def alienBullet():
+    global alienBulletOnScreen
+    global alienActivateBullet
+    global alienTempX
+    global alienBulletY
+    aX=randrange(5)
+    aY=randrange(3)
+    if alienActivateBullet==False and aliens[aY][aX]!=0:
+        alienBulletY=610
+        alienTempX=(alienX+aX*100) #Stores the current shipX, therefore not moving with bullet
+        alienBulletY=(alienY+aY*50)
+        alienBulletOnScreen=True #Check if bullet is currently on screen
+        alienActivateBullet=True #Checks if bullet is shot
+        return alienTempX
+        return alienBulletY
+
+#Create the alien bullet
+def alienCreateBullet():
+    global alienBulletX
+    global alienBulletY
+    global alienTempX
+    fill(255,0,0)
+    alienBulletX=alienTempX
+    rect(alienBulletX,alienBulletY,3,15)
+    alienBulletY=alienBulletY+7
     
 #Create each row of aliens
 def alienRow():
@@ -122,36 +154,104 @@ def draw():
     global bulletY
     global bulletOnScreen
     global activateBullet
-    global activateAlienBullet
+    global alienActivateBullet
     global alienX
+    global alienBulletX
+    global alienBulletY
+    global lives
+    global gameOver
+    global gameStart
+    global gameWin
     font=loadFont("SpaceInvaders.vlw")
-    noStroke()
-    rectMode(CENTER)
-    background(0)
-    textFont(font,16)
-    textAlign(LEFT)
-    fill(255)
-    text("Score",50,50)
-    fill(124,252,0) #Neon Green
-    text(str(score),120,50)
-    rect(shipX,500,60,20) #Main ship body
-    rect(shipX,490,10,20) #Ship cannon
-    if keyPressed==True and shipX>30 and shipX<570:
-        if key=="a" or key=="A" or keyCode==LEFT: #Move left
-            shipX-=5
-        elif key=="d" or key=="D" or keyCode==RIGHT: #Move right
-            shipX+=5
-    if shipX<40:
-        shipX=40
-    if shipX>560:
-        shipX=560
-    bullet() #Repeats bullet functions
-    alienRow() #Rows of aliens
-    if bulletY>=50:
-        bulletOnScreen=True  
-    elif bulletY<0:
-        bulletOnScreen=False
-        activateBullet==False
-    if activateBullet==True:
-        createBullet()
-    alienDance()
+    if gameStart==False:
+        background(0)
+        textAlign(CENTER)
+        textFont(font,32)
+        fill(124,252,0)
+        text("SPACE INVADERS", 300, 300)
+        fill(255)
+        textFont(font,16)
+        text("Press space to start", 300, 340)
+        textFont(font,14)
+        text("Developed by Navid, Richard, and Michel", 300, 575)
+        if keyPressed==True and key==' ':
+            gameStart=True
+    if gameStart==True:
+        if gameOver==False and gameWin==False:
+            noStroke()
+            rectMode(CENTER)
+            background(0)
+            textFont(font,16)
+            textAlign(LEFT)
+            fill(255)
+            text("Lives",465,50)
+            text("Score",50,50)
+            fill(124,252,0) #Neon Green
+            text(str(lives),535,50)
+            text(str(score),120,50)
+            rect(shipX,500,60,20) #Main ship body
+            rect(shipX,490,10,20) #Ship cannon
+            if keyPressed==True and shipX>30 and shipX<570:
+                if key=="a" or key=="A" or keyCode==LEFT: #Move left
+                    shipX-=5
+                elif key=="d" or key=="D" or keyCode==RIGHT: #Move right
+                    shipX+=5
+            if shipX<40:
+                shipX=40
+            if shipX>560:
+                shipX=560
+            bullet() #Repeats bullet functions
+            alienBullet()
+            alienRow() #Rows of aliens
+            if bulletY>=50:
+                bulletOnScreen=True  
+            elif bulletY<0:
+                bulletOnScreen=False
+                activateBullet=False
+            if activateBullet==True:
+                createBullet()
+            if alienBulletY<=550:
+                alienBulletOnScreen=True  
+            if alienBulletY>600:
+                alienBulletOnScreen=False
+                alienActivateBullet=False
+            if alienActivateBullet==True:
+                alienCreateBullet()
+            if alienBulletX>shipX-25 and alienBulletX<shipX+25 and alienBulletY>480:
+                lives-=1
+                alienBulletX=0
+                alienBulletY=610
+            if lives==0:
+                gameOver=True
+            if score==300:
+                gameWin=True
+            alienDance()
+        elif gameOver==True:
+            rectMode(CORNER)
+            textFont(font,16)
+            fill(0)
+            rect(0,0,600,400)
+            rectMode(CENTER)
+            fill(255)
+            text("Lives",465,50)
+            text("Score",50,50)
+            fill(124,252,0) #Neon Green
+            text(str(lives),535,50)
+            text(str(score),120,50)
+            fill(255,0,0)
+            textFont(font,32)
+            text("GAME OVER",200,300)
+        elif gameWin==True:
+            rectMode(CORNER)
+            textFont(font,16)
+            fill(0)
+            rect(0,0,600,400)
+            rectMode(CENTER)
+            fill(255)
+            text("Lives",465,50)
+            text("Score",50,50)
+            fill(124,252,0) #Neon Green
+            text(str(lives),535,50)
+            text(str(score),120,50) 
+            textFont(font,32)
+            text("YOU WIN!",240,300)
