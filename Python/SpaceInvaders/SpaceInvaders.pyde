@@ -4,6 +4,7 @@ shipX=300
 bulletX=0
 bulletY=-10
 tempX=0
+alienX=100
 bulletOnScreen=False
 activateBullet=False
 aliens=[[0,0,0,0,0],[0,0,0,0,0]]
@@ -26,8 +27,7 @@ def bullet(): #One bullet
 
 def createBullet():
     global bulletX
-    global bulletY 
-    global shipX
+    global bulletY
     global tempX
     fill(255)
     bulletX=tempX
@@ -39,12 +39,14 @@ def alienrow(): #One row of aliens
         for i in range(len(aliens[x])):
             if aliens[x][i]==0:
                 fill(255)
-                rect(90+(i*100),90,10,10)
-                rect(110+(i*100),90,10,10)
-                rect(100+(i*100),100,40,20)
+                rect((alienX-10)+(i*100),90,10,10)
+                rect((alienX+10)+(i*100),90,10,10)
+                rect(alienX+(i*100),100,40,20)
                 fill(0)
-                rect(90+(i*100),100,8,5)
-                rect(110+(i*100),100,8,5)
+                rect((alienX-10)+(i*100),100,8,5)
+                rect((alienX+10)+(i*100),100,8,5)
+            if bulletX>=((alienX)+i*100) and bulletX<=((alienX+40)+i*100) and bulletY<=100:
+                aliens[x][i]=1
 
 def draw():
     global shipX
@@ -68,7 +70,7 @@ def draw():
         shipX=560
     bullet()
     alienrow()
-    if bulletY>=0:
+    if bulletY>=50:
         bulletOnScreen=True
     elif bulletY<0:
         bulletOnScreen=False
