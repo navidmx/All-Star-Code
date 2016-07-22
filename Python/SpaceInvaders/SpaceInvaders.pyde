@@ -8,7 +8,7 @@ alienX=100
 alienY=100
 bulletOnScreen=False
 activateBullet=False
-aliens=[[0,0,0,0,0],[0,0,0,0,0]]
+aliens=[[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0]]
 alienRight=True
 
 def setup():
@@ -39,19 +39,31 @@ def createBullet():
 def alienRow(): #One row of aliens
     global alienX
     global alienY
+    global bulletX
+    global bulletY
     for x in range(len(aliens)):
         for i in range(len(aliens[x])):
             if aliens[x][i]==0:
                 fill(255)
-                rect((alienX-10)+(i*100),(alienY-10),10,10)
-                rect((alienX+10)+(i*100),(alienY-10),10,10)
-                rect(alienX+(i*100),alienY,40,20)
+                rect((alienX-10)+(i*100),(alienY-10)+(x*50),10,10)
+                rect((alienX+10)+(i*100),(alienY-10)+(x*50),10,10)
+                rect(alienX+(i*100),alienY+(x*50),40,20)
                 fill(0)
-                rect((alienX-10)+(i*100),alienY,8,5)
-                rect((alienX+10)+(i*100),alienY,8,5)
-            if bulletX>=((alienX-20)+(i*100)) and bulletX<=((alienX+20)+(i*100)) and bulletY<=alienY+10:
+                rect((alienX-10)+(i*100),alienY+(x*50),8,5)
+                rect((alienX+10)+(i*100),alienY+(x*50),8,5)
+            if aliens[x][i]==1:
+                fill(255,0,0)
+                rect((alienX-10)+(i*100),(alienY-10)+(x*50),10,10)
+                rect((alienX+10)+(i*100),(alienY-10)+(x*50),10,10)
+                rect(alienX+(i*100),alienY+(x*50),40,20)
+                fill(0)
+                rect((alienX-10)+(i*100),alienY+(x*50),8,5)
+                rect((alienX+10)+(i*100),alienY+(x*50),8,5)
+            if bulletX>=((alienX-20)+(i*100)) and bulletX<=((alienX+20)+(i*100)) and bulletY<=alienY+10 and aliens[x][i]==0:
                 aliens[x][i]=1
-            if bulletX>=((alienX-10)+(i*100)) and bulletX<=((alienX+10)+(i*100)) and bulletY<=alienY+10:
+                bulletX=0
+                bulletY=-10
+            if bulletX>=((alienX-20)+(i*100)) and bulletX<=((alienX+20)+(i*100)) and bulletY<=alienY+10 and aliens[x][i]==1:
                 aliens[x][i]=2
 
 def alienDance():
