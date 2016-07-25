@@ -226,7 +226,7 @@ def draw():
             if score==300:
                 gameWin=True
             alienDance()
-        elif gameOver==True:
+        if gameOver==True:
             rectMode(CORNER)
             textFont(font,16)
             fill(0)
@@ -241,7 +241,7 @@ def draw():
             fill(255,0,0)
             textFont(font,32)
             text("GAME OVER",200,300)
-        elif gameWin==True:
+        if gameWin==True:
             rectMode(CORNER)
             textFont(font,16)
             fill(0)
@@ -254,4 +254,4 @@ def draw():
             text(str(lives),535,50)
             text(str(score),120,50) 
             textFont(font,32)
-            text("YOU WIN!",240,300)
+            text("YOU WIN!",230,300)
