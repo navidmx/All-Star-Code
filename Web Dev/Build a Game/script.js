@@ -1,17 +1,13 @@
 var bullets = [];
-var timer;
-var masterTimer;
-var count;
-var pacmanX,pacmanY;
-var ghostX,ghostY;
-var ghostSpeed;
-var redGhostX,redGhostY;
-var redGhostSpeed;
-var pacman;
+var timer,masterTimer;
+var count,score;
+var pacman,pacmanX,pacmanY;
+var ghostX,ghostY,ghostSpeed;
+var redGhostX,redGhostY,redGhostSpeed;
 var activeGhost = false;
 var redActiveGhost = false;
-var score;
 var lose=false;
+var startGame=false;
 
 function preload(){
     pacman=loadAnimation("http://i.imgur.com/1o2HATt.png", "http://i.imgur.com/1o2HATt.png", "http://i.imgur.com/FqKY7Gv.png", "http://i.imgur.com/FqKY7Gv.png");
@@ -49,14 +45,21 @@ function keyPressed(){
     if (keyIsDown(RIGHT_ARROW) || keyIsDown(68)){
         pacmanX+=3;
     }
-    if (keyIsDown(32)){ //32 = Space
-        animation(pacman, pacmanX, pacmanY);
-        if (timer==0){
-            {
-              var temp = new Bullet(pacmanX, pacmanY);
-              bullets.push(temp);
-              count=true;
+    if (startGame==true){
+        if (keyIsDown(32)){ //32 = Space
+            animation(pacman, pacmanX, pacmanY);
+            if (timer==0){
+                {
+                  var temp = new Bullet(pacmanX, pacmanY);
+                  bullets.push(temp);
+                  count=true;
+                }
             }
+        }
+    }
+    if (startGame==false){
+        if (keyIsDown(32)){
+            startGame=true;
         }
     }
     else{
@@ -71,13 +74,13 @@ function Bullet (tempX, tempY) {
 
 function createGhost(){
     ghostY=random(50,450);
-    ghostSpeed=random(3,6);
+    ghostSpeed=random(2,5);
     activeGhost=true;
 }
 
 function createRedGhost(){
     redGhostY=random(50,450);
-    redGhostSpeed=random(4,7);
+    redGhostSpeed=random(3,6);
     redActiveGhost=true;
 }
 
@@ -154,34 +157,43 @@ function ghostCollision(){
 
 function draw(){
     background(0);
-    fill(255,255,0);
     keyPressed();
-    logic();
-    walls();
-    ghostCollision();
-    masterTimer+=1;
-    console.log(masterTimer);
-    if (lose==false){
-        if (activeGhost==false){
-            createGhost();
-        }
-        if (masterTimer>600){
-            if (redActiveGhost==false){
-                createRedGhost();
-            }
-        }
-        fill(255,255,0);
-        textSize(18);
-        text("SCORE: "+score, 475, 50);
-    }
-    if (lose==true){
-        textAlign(CENTER);
-        fill(255,255,0);
-        textSize(36);
-        text("YOU LOSE :(", 300, 250);
-        pacmanX=1000;
+    if (startGame==false){
         fill(255);
+        textAlign(CENTER);
+        textSize(32);
+        text("PACMAN FIGHTS BACK", 300, 100)
         textSize(24);
-        text("Final Score: "+score, 300, 285);
+        text("Click space to start", 300, 140)
+    }
+    if (startGame==true){
+        logic();
+        walls();
+        ghostCollision();
+        masterTimer+=1;
+        console.log(masterTimer);
+        if (lose==false){
+            if (activeGhost==false){
+                createGhost();
+            }
+            if (masterTimer>600){
+                if (redActiveGhost==false){
+                    createRedGhost();
+                }
+            }
+            fill(255,255,0);
+            textSize(18);
+            text("SCORE: "+score, 475, 50);
+        }
+        if (lose==true){
+            textAlign(CENTER);
+            fill(255,255,0);
+            textSize(36);
+            text("YOU LOSE :(", 300, 250);
+            pacmanX=1000;
+            fill(255);
+            textSize(24);
+            text("Final Score: "+score, 300, 285);
+        }
     }
 }
