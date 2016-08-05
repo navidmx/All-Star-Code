@@ -11,3 +11,7 @@ body {
 
   align-items: center;
 }
+
+#pacman {
+    font-family: 'Bungee Inline';
+}

@@ -1,0 +1,31 @@
+html, body{
+    background-color: cornsilk;
+}
+
+#name{
+    height:50px;
+    font-family: 'Bungee Inline';
+    width:300px;
+    font-size:16pt;
+    text-align: center;
+}
+
+#submit{
+    font-family: 'Bungee Inline';
+    border:none;
+    font-size:14pt;
+    color:white;
+    margin-top:10px;
+    background-color: cornflowerblue;
+    text-align: center;
+    padding: 8px 32px;
+}
+
+#submit:hover{
+    background-color: deepskyblue;
+    cursor: pointer;
+}
+
+#img{
+    margin-top: 50px;
+}

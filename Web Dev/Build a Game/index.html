@@ -4,12 +4,28 @@
     <link rel="stylesheet" href="style.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.2/p5.min.js"></script>
     <script src = "http://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>
-    <script src = "script.js" type="text/javascript"></script>
+    <script src="https://www.gstatic.com/firebasejs/3.2.1/firebase.js"></script>
+    <script>
+      // Initialize Firebase
+      var config = {
+        apiKey: "AIzaSyAxEcWqSxZ5B0TnfwrEwYWpNEKD0MEuoeE",
+        authDomain: "all-star-code.firebaseapp.com",
+        databaseURL: "https://all-star-code.firebaseio.com",
+        storageBucket: "",
+      };
+      firebase.initializeApp(config);
+    </script>
+    
     <script src = "p5.play.js" type="text/javascript"></script>
+    <link href="https://fonts.googleapis.com/css?family=Bungee+Inline" rel="stylesheet">
     <title>Pacman 2.0</title>
 </head>
 <body>
 <center>
+    <div id="pacman"><script src='script.js'></script></div>
+    <div id="highScores"></div>
+    <input placeholder='Name' type='text' id='name'>
+    <button onclick='sendPoints()' id='js'>Submit</button>
 </center>
 </body>
 </html>

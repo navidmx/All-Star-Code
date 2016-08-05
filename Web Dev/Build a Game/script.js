@@ -4,16 +4,20 @@ var count,score;
 var pacman,pacmanX,pacmanY;
 var ghostX,ghostY,ghostSpeed;
 var redGhostX,redGhostY,redGhostSpeed;
+var orangeGhostX,orangeGhostY,orangeGhostSpeed;
 var activeGhost = false;
 var redActiveGhost = false;
+var orangeActiveGhost = false;
 var lose=false;
 var startGame=false;
+var database = firebase.database().ref();
 
 function preload(){
     pacman=loadAnimation("http://i.imgur.com/1o2HATt.png", "http://i.imgur.com/1o2HATt.png", "http://i.imgur.com/FqKY7Gv.png", "http://i.imgur.com/FqKY7Gv.png");
     normalpacman=loadAnimation("http://i.imgur.com/1o2HATt.png");
     ghost=loadAnimation("http://i.imgur.com/2dH1SQG.png");
     redGhost=loadAnimation("http://i.imgur.com/XrA4iP3.png");
+    orangeGhost=loadAnimation("http://i.imgur.com/LbXpxZw.png");
 }
 
 function setup(){
@@ -24,8 +28,11 @@ function setup(){
     ghostY=50;
     redGhostX=650;
     redGhostY=50;
+    orangeGhostX=650;
+    orangeGhostY=50;
     ghostSpeed=4;
     redGhostSpeed=4;
+    orangeGhostSpeed=4;
     timer=0;
     masterTimer=0;
     score=0;
@@ -78,9 +85,15 @@ function createGhost(){
     activeGhost=true;
 }
 
+function createOrangeGhost(){
+    orangeGhostY=random(50,450);
+    orangeGhostSpeed=random(3,6);
+    orangeActiveGhost=true;
+}
+
 function createRedGhost(){
     redGhostY=random(50,450);
-    redGhostSpeed=random(3,6);
+    redGhostSpeed=random(4,7);
     redActiveGhost=true;
 }
 
@@ -104,6 +117,12 @@ function logic(){
             ghostX=650;
         }
         if (masterTimer>600){
+            if (orangeGhostX<0){
+                orangeActiveGhost=false;
+                orangeGhostX=650;
+            }
+        }
+        if (masterTimer>1200){
             if (redGhostX<0){
                 redActiveGhost=false;
                 redGhostX=650;
@@ -113,6 +132,10 @@ function logic(){
     animation(ghost,ghostX,ghostY);
     ghostX-=ghostSpeed;
     if (masterTimer>600){
+        animation(orangeGhost,orangeGhostX,orangeGhostY);
+        orangeGhostX-=orangeGhostSpeed;
+    }
+    if (masterTimer>1200){
         animation(redGhost,redGhostX,redGhostY);
         redGhostX-=redGhostSpeed;
     }
@@ -141,6 +164,11 @@ function ghostCollision(){
             ghostX=650;
             activeGhost=false;
         }
+        if (bullet.bulletX > orangeGhostX-20 && bullet.bulletX < orangeGhostX+20 && bullet.bulletY > orangeGhostY-20 && bullet.bulletY < orangeGhostY+25){
+            score+=1;
+            orangeGhostX=650;
+            orangeActiveGhost=false;
+        }
         if (bullet.bulletX > redGhostX-20 && bullet.bulletX < redGhostX+20 && bullet.bulletY > redGhostY-20 && bullet.bulletY < redGhostY+25){
             score+=1;
             redGhostX=650;
@@ -148,6 +176,9 @@ function ghostCollision(){
         }
     }
     if (pacmanX > ghostX-20 && pacmanX < ghostX+20 && pacmanY > ghostY-20 && pacmanY < ghostY+25){
+        lose=true;
+    }
+    if (pacmanX > orangeGhostX-20 && pacmanX < orangeGhostX+20 && pacmanY > orangeGhostY-20 && pacmanY < orangeGhostY+25){
         lose=true;
     }
     if (pacmanX > redGhostX-20 && pacmanX < redGhostX+20 && pacmanY > redGhostY-20 && pacmanY < redGhostY+25){
@@ -171,12 +202,16 @@ function draw(){
         walls();
         ghostCollision();
         masterTimer+=1;
-        console.log(masterTimer);
         if (lose==false){
             if (activeGhost==false){
                 createGhost();
             }
             if (masterTimer>600){
+                if (orangeActiveGhost==false){
+                    createOrangeGhost();
+                }
+            }
+            if (masterTimer>1200){
                 if (redActiveGhost==false){
                     createRedGhost();
                 }
@@ -197,3 +232,17 @@ function draw(){
         }
     }
 }
+
+function sendPoints(){
+    var name = $('#name').val();
+    var points = score;
+    database.push({
+        'name':name,
+        'points':points,
+    });
+}
+
+database.orderByChild("points").limitToLast(5).on('child_added',function(dataRow){
+    var row = dataRow.val();
+    $("#highScores").append("<h3>"+": "+row.name+" - "+row.points+"</h3>");
+    })

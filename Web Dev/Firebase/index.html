@@ -1,0 +1,29 @@
+<html>
+  <head>
+  </head>
+  <body>
+    <!-- What user will use for input -->
+    <input placeholder='Name' type='text' id='name'>
+    <input placeholder='Message' type='text' id='message'>
+    <!-- button for sending message to message board -->
+    <button onclick='sendMessage()' id='js'>Use Plain JS</button>
+    <!-- Empty div where the messages will show up -->
+    <div id='messageBoard'></div>
+    <script src="https://www.gstatic.com/firebasejs/3.2.1/firebase.js"></script>
+    <script>
+      // Initialize Firebase
+      var config = {
+        apiKey: "AIzaSyAxEcWqSxZ5B0TnfwrEwYWpNEKD0MEuoeE",
+        authDomain: "all-star-code.firebaseapp.com",
+        databaseURL: "https://all-star-code.firebaseio.com",
+        storageBucket: "",
+      };
+      firebase.initializeApp(config);
+    </script>
+
+    <!-- adding jQuery -->
+    <script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
+    <!-- script we'll make dynamic changes with. You'll have to create this file -->
+    <script src='script.js'></script>
+  </body>
+</html>
