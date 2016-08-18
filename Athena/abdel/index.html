@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+    <script src="auth.js">
+    var $ = jQuery.noConflict(); 
+    </script>
+<link rel="stylesheet" type="text/css" href="beauty.css">
+    <script src="https://apis.google.com/js/client.js?onload=googleApiClientReady"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+</head>
+<body>
+<div id="container">
+    <header>
+        <h1>Search <span>Vids</span></h1>
+        <p>Search all YouTube Videos</p>
+    </header>
+    <section>
+        <form id="search-form" name="search-form" onsubmit="return search()">
+            <div class="fieldcontainer">
+                <input type="search" id="query" class="search-field" placeholder="Search YouTube">
+                <input type="submit" name="search-btn" id="search-btn" value="">
+            </div>
+        </form>
+        
+        <ul id="results"></ul>
+        <div id="buttons"></div>
+    </section>
+ <script>
+  (function() {
+    var cx = '011083797203434078161:4pu5m8eh8yy';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = 'https://cse.google.com/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+<gcse:search></gcse:search>
+    <footer>Copyright, &copy; 2015</footer>
+</div>
+</body>
+</html>
